@@ -1,0 +1,65 @@
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 20px;
+        }
+
+        .container {
+            max-width: 80%;
+        }
+
+        .pagination {
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard</h1>
+        <br>
+        <h4>License List</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>License</th>
+                    <th>Logged In Device</th>
+                    <th>Max Device</th>
+                    <th>Created At</th>                    
+                    <th>Expired At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for license in licenses %}
+                <tr>
+                    <td>{{ license.name }}</td>
+                    <td>{{ license.email }}</td>
+                    <td>{{ license.license }}</td>
+                    <td>{{ license.logged_in_device }}</td>
+                    <td>{{ license.max_device }}</td>
+                    <td>{{ license.created_date }}</td>
+                    <td>{{ license.expired_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- Pagination links -->
+        {{ pagination.links }}
+        <br>
+        <a href="/register" class="btn btn-primary">Register New License</a>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
