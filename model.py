@@ -15,6 +15,5 @@ class License:
     
     def isExpired(self):
         current_time = datetime.now()
-        parsed_date = datetime.strptime(self.expired_date, "%a, %d %b %Y %H:%M:%S %Z")
         
-        return current_time > parsed_date 
+        return current_time > self.expired_date 
