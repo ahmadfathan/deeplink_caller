@@ -234,7 +234,7 @@ def activate_license():
         return jsonify({"message": err}), 500
     
     return jsonify({
-        "license": license.__dict__
+        "data": license.__dict__
     })
 
 
@@ -261,7 +261,7 @@ def deactivate_license():
         return jsonify({"message": err}), 500
     
     return jsonify({
-        "license": license.__dict__
+        "data": license.__dict__
     })
 
 @app.route('/')
