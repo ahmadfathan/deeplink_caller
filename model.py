@@ -1,3 +1,4 @@
+from datetime import datetime 
 class License:
     def __init__(self, name: str, email: str, license: str, max_device: int, created_date: str, expired_date: str, id: int = 0, logged_in_device : int = 0):
         self.id = id
@@ -11,3 +12,9 @@ class License:
 
     def maxDeviceReached(self):
         return (self.max_device <= self.logged_in_device)
+    
+    def isExpired(self):
+        current_time = datetime.now()
+        parsed_date = datetime.strptime(self.expired_date, "%a, %d %b %Y %H:%M:%S %Z")
+        
+        return current_time > parsed_date 

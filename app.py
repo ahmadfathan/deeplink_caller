@@ -220,6 +220,9 @@ def activate_license():
     if license == None:
         return jsonify({"message": "error license is not found"}), 404
 
+    if license.isExpired():
+        return jsonify({"message": "error license has been expired"}), 403
+    
     if license.maxDeviceReached():
         return jsonify({"message": "error max device reached"}), 403
     
