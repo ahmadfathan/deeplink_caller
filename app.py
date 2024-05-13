@@ -13,19 +13,35 @@ from util import get_current_datetime_str
 #     database="zanoby_bot"
 # )
 
-db = mysql.connector.connect(
-    host="46.250.226.149",
-    port=3307,
-    user="root",
-    password="12345678",
-    database="zanoby_bot"
-)
+db = None
+
+def connect_to_database():
+    global db
+    try:
+        db = mysql.connector.connect(
+            host="46.250.226.149",
+            port=3307,
+            user="root",
+            password="12345678",
+            database="zanoby_bot"
+        )
+        print("Connected to database")
+    except Exception as e:
+        print("Error connecting to database:", e)
+
+def get_database_connection():
+    global db
+    if db is None or not db.is_connected():
+        connect_to_database()
+    return db
 
 app = Flask(__name__)
 
 PER_PAGE = 4
 
 def get_total_licenses():
+    db = get_database_connection()
+
     # Create a cursor to execute SQL queries
     cursor = db.cursor()
 
@@ -50,7 +66,9 @@ def get_total_licenses():
     return count, error
 
 def get_license_by_license(license_key: str):
-        # Create a cursor to execute SQL queries
+    db = get_database_connection()
+    
+    # Create a cursor to execute SQL queries
     cursor = db.cursor()
 
     license: License = None
@@ -99,6 +117,9 @@ def get_license_by_license(license_key: str):
     return license, error
 
 def get_licenses(offset=0, per_page=PER_PAGE):
+
+    db = get_database_connection()
+
     licenses: list[License] = []
 
     # Create a cursor to execute SQL queries
@@ -148,6 +169,8 @@ def get_licenses(offset=0, per_page=PER_PAGE):
     return licenses, error
 
 def insert_license(license: License):
+    db = get_database_connection()
+
     # Create a cursor to execute SQL queries
     cursor = db.cursor()
 
@@ -184,6 +207,8 @@ def insert_license(license: License):
     return error
 
 def update_license(license_id: int, updates: dict):
+    db = get_database_connection()
+
     # Create a cursor to execute SQL queries
     cursor = db.cursor()
 
@@ -305,4 +330,5 @@ def register():
     return render_template('register.html')
 
 if __name__ == '__main__':
+    connect_to_database()
     app.run(debug=True, host="0.0.0.0")
